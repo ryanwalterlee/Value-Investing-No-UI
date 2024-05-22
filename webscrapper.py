@@ -13,11 +13,43 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
-#Install Driver
+# Install Driver
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
 
-def scrape_eps(ticker):
+def scrape_second_column():
+    """
+    Scrape 2nd column of table on companiesmarketcap
+
+    Returns:
+        list(string): list of the data in the second column
+    """
+
+    # Locate the table
+    table = driver.find_element(By.CSS_SELECTOR, "table.table")
+
+    # Locate the rows in the table body
+    rows = table.find_elements(By.XPATH, "./tbody/tr")
+
+    # Extract the second <td> from each row, which contains the dollar amounts
+    results = []
+    for row in rows:
+        td_element = row.find_elements(By.TAG_NAME, "td")[1]  # get 2nd column
+        results.append(td_element.text)
+
+    return results
+
+
+def scrape_eps_and_pe_ratio(ticker):
+    """
+    Goes to companiesmarketcap.com to scrape eps and pe ratio
+
+    Args:
+        ticker (string): Ticker of stock
+    
+    Returns:
+        list(string), list(string): eps list and pe ratio list
+    """
     
     # Navigate to the specified webpage
     driver.get("https://companiesmarketcap.com")
@@ -45,23 +77,20 @@ def scrape_eps(ticker):
     # jump straight to the page to avoid ads
     driver.get(href)
     
-    # Locate the table
-    table = driver.find_element(By.CSS_SELECTOR, "table.table")
+    historical_eps = scrape_second_column()
 
-    # Locate the rows in the table body
-    rows = table.find_elements(By.XPATH, "./tbody/tr")
+    href = href.replace('/eps/', '/pe-ratio/')
 
-    # Extract the second <td> from each row, which contains the dollar amounts
-    historical_eps = []
-    for row in rows:
-        td_element = row.find_elements(By.TAG_NAME, "td")[1]  # index 1 for the second <td>
-        historical_eps.append(td_element.text)
+    # jump straight to the page to avoid ads
+    driver.get(href)
+
+    historical_pe_ratio = scrape_second_column()
 
     driver.quit()
 
-    return historical_eps
+    return historical_eps, historical_pe_ratio
 
-print(scrape_eps('aapl'))
+print(scrape_eps_and_pe_ratio('aapl'))
 
 
 
