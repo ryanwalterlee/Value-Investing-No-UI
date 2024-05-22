@@ -1,21 +1,19 @@
-import os
-import selenium
 from selenium import webdriver
 import time
-import io
-import requests
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
+
+# Configure Chrome options for headless mode
+chrome_options = Options()
+chrome_options.add_argument("--headless")
 
 # Install Driver
 service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service)
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
 def scrape_second_column():
     """
@@ -39,6 +37,15 @@ def scrape_second_column():
 
     return results
 
+def convert_to_float(values):
+    result = []
+    for value in values:
+        # Remove any non-numeric characters
+        cleaned_value = value.replace('$', '')
+        # Convert to integer
+        result.append(float(cleaned_value))
+    return result
+
 
 def scrape_eps_and_pe_ratio(ticker):
     """
@@ -51,7 +58,6 @@ def scrape_eps_and_pe_ratio(ticker):
         list(string), list(string): eps list and pe ratio list
     """
     
-    # Navigate to the specified webpage
     driver.get("https://companiesmarketcap.com")
 
     # wait until income statement eps row loads
@@ -88,9 +94,8 @@ def scrape_eps_and_pe_ratio(ticker):
 
     driver.quit()
 
-    return historical_eps, historical_pe_ratio
+    return convert_to_float(historical_eps[:10]), convert_to_float(historical_pe_ratio[:10])
 
-print(scrape_eps_and_pe_ratio('aapl'))
 
 
 
