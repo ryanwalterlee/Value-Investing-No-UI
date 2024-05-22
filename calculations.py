@@ -1,12 +1,12 @@
-from webscrapper import scrape_eps_and_pe_ratio
-from calculations_functions import calc_projections
-from financial_data_api import get_financial_statement_data
+from projections import calc_projections
+from fundamentals import calc_fundamentals
+from historical import get_historical_data
+from text_format import bold_text
 
-ticker = input("Enter Ticker: ")
+print()
+ticker = input(bold_text("Enter Ticker: "))
+print()
 
-eps, pe_ratio = scrape_eps_and_pe_ratio(ticker)
-financial_statement_data = get_financial_statement_data(ticker)
-
-print(eps)
-print(pe_ratio)
+eps, pe_ratio, financial_statement_data = get_historical_data(ticker)
 calc_projections(eps, pe_ratio, financial_statement_data.get_price())
+calc_fundamentals(financial_statement_data)
