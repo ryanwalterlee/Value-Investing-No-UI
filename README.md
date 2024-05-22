@@ -4,4 +4,4 @@
 
 2. get your API key from financial modelling prep and put it in the .env
 
-3. run python3 calculations.py and follow the prompts to view stock analysis
+3. run `python3 calculations.py` and follow the prompts to view stock analysis
