@@ -2,6 +2,7 @@ RED = "\033[1;31m"
 YELLOW = "\033[1;33m"
 GREEN = "\033[1;32m"
 BOLD = "\033[1m"
+BOLD_RED = "\033[1;31m"
 RESET = "\033[0m"
 
 def add_colour(value, lower_value, upper_value, mode):
@@ -29,3 +30,6 @@ def add_colour(value, lower_value, upper_value, mode):
 
 def bold_text(text):
     return "{}{}{}".format(BOLD, text, RESET)
+
+def bold_red_text(text):
+    return "{}{}{}".format(BOLD_RED, text, RESET)

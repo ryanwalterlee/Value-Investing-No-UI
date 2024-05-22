@@ -1,9 +1,21 @@
-from text_format import add_colour, bold_text
+from text_format import add_colour, bold_red_text, bold_text
 from tabulate import tabulate
 
 def calc_projections(eps, pe, price):
 
+    print(bold_text("Projections based on Past EPS and PE Ratios"))
+
     first_eps, last_eps = eps[0], eps[-1]
+    if first_eps < 0 or last_eps < 0:
+        print(bold_red_text("Cannot project future market price due to Negative EPS (DO NOT BUY)\n"))
+        return
+    if first_eps < last_eps:
+        print(bold_red_text("Earnings is going down (DO NOT BUY)\n"))
+        return
+    if min(eps) < 0:
+        print(bold_red_text("Negative EPS detected, earnings may not be consistent (DO NOT BUY)\n"))
+        return
+    
     avg_eps_growth = ((first_eps / last_eps) ** 0.1) - 1
 
     avg_pe = sum(pe) / len(pe)
@@ -28,6 +40,5 @@ def calc_projections(eps, pe, price):
         ["Min Growth Rate", add_colour(min_growth_rate, 0.00, 0.02, 0)],
     ]
 
-    print(bold_text("Projections based on Past EPS and PE Ratios"))
     print(tabulate(table_to_print, headers="firstrow", tablefmt="grid"))
     print()
