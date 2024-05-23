@@ -16,7 +16,7 @@ def calc_projections(eps, pe, price):
         print(bold_red_text("Negative EPS detected, earnings may not be consistent (DO NOT BUY)\n"))
         return
     
-    avg_eps_growth = ((first_eps / last_eps) ** 0.1) - 1
+    avg_eps_growth = ((first_eps / last_eps) ** (1 / len(eps))) - 1
 
     avg_pe = sum(pe) / len(pe)
 

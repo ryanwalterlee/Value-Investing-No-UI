@@ -19,7 +19,7 @@ def calc_fundamentals(data: FinancialData):
         ["Gross Profit Margin", add_colour(gross_profit_margin, 0.3, 0.4, 0)],
         ["Percentage SGA", add_colour(percentage_sga, 0.3, 0.6, 1)],
         ["Percentage RND", add_colour(percentage_rd, 0.3, 0.5, 1)],
-        ["Percentage Depreciaion", add_colour(percentage_depreciation, 0.1, 0.2, 1)],
+        ["Percentage Depreciation", add_colour(percentage_depreciation, 0.1, 0.2, 1)],
         ["Interest Expense Over Operating Income", add_colour(interest_expense_over_operating_income, 0.1, 0.3, 1)],
         ["Profit Margin", add_colour(profit_margin, 0.1, 0.2, 0)],
         ["Long Term Debt to Net Earning Ratio", add_colour(long_term_debt_to_net_earning_ratio, 4, 8, 1)],
