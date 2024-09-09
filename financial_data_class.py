@@ -4,7 +4,7 @@ class FinancialData:
         self.financial_data = financial_data
 
     def __str__(self):
-        return self.financial_data
+        return str(self.financial_data)
 
     def get_revenue(self):
         return self.financial_data.get("revenue")

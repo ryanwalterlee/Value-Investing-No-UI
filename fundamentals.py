@@ -4,6 +4,8 @@ from tabulate import tabulate
 
 def calc_fundamentals(data: FinancialData):
 
+    # print(data)
+
     gross_profit_margin = data.get_gross_profit() / data.get_revenue()
     percentage_sga = data.get_selling_and_marketing_expenses() / data.get_gross_profit()
     percentage_rd = data.get_research_and_development_expenses() / data.get_gross_profit()
@@ -30,3 +32,6 @@ def calc_fundamentals(data: FinancialData):
     print(bold_text("Financial Soundness of Company based on Financial Ratios"))
     print(tabulate(table_to_print, headers="firstrow", tablefmt="grid"))
     print()
+
+    # print(table_to_print)
+    return table_to_print
