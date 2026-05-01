@@ -3,3 +3,4 @@ requests
 webdriver-manager
 tabulate
 pytest
+streamlit

@@ -14,7 +14,7 @@ def add_colour(value, lower_value, upper_value, mode):
         lower_value (int): lower threshold for value
         upper_value (int): upper threshold for value
         mode (0 or 1): 0 if the higher the value, the better (green) and lower the value, the worse (red) else 1
-    
+
     Returns:
         string: returns value in the correct colour
     """
@@ -27,6 +27,17 @@ def add_colour(value, lower_value, upper_value, mode):
         colour = YELLOW
 
     return "{}{}{}".format(colour, round(value, 2), RESET)
+
+def get_colour_class(value, lower_value, upper_value, mode):
+    """
+    Returns colour classification ("green", "yellow", "red") without ANSI codes.
+    Same thresholds and mode semantics as add_colour.
+    """
+    if value < lower_value:
+        return "red" if mode == 0 else "green"
+    elif value >= upper_value:
+        return "green" if mode == 0 else "red"
+    return "yellow"
 
 def bold_text(text):
     return "{}{}{}".format(BOLD, text, RESET)
