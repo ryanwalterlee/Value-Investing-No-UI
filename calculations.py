@@ -30,6 +30,8 @@ def run_cli():
     if "error" in result:
         print(bold_text(result["error"]))
     else:
+        for w in result.get("warnings", []):
+            print("\033[1;33mWarning: {}\033[0m".format(w))
         COLOR_MAP = {"green": "\033[1;32m", "yellow": "\033[1;33m", "red": "\033[1;31m"}
         RESET = "\033[0m"
         rows = [["Projections", "Values"]]

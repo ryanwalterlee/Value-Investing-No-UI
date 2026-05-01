@@ -15,17 +15,24 @@ def calc_projections(eps, pe, price):
         return {"error": "Negative EPS detected, earnings may not be consistent (DO NOT BUY)"}
 
     avg_eps_growth = ((first_eps / last_eps) ** (1 / len(eps))) - 1
-    avg_pe = sum(pe) / len(pe)
+
+    warnings = []
+    positive_pe = [p for p in pe if p > 0]
+    if len(positive_pe) < len(pe):
+        warnings.append("Negative PE ratio detected in history (DO NOT BUY)")
+    if not positive_pe:
+        return {"error": "No positive PE ratios found — cannot project market price"}
+    avg_pe = sum(positive_pe) / len(positive_pe)
 
     ten_year_eps = round(((1 + avg_eps_growth) ** 10) * first_eps, 2)
     ten_year_market_price = round(ten_year_eps * avg_pe, 2)
-    ten_year_max_market_price = round(ten_year_eps * max(pe), 2)
-    ten_year_min_market_price = round(ten_year_eps * min(pe), 2)
+    ten_year_max_market_price = round(ten_year_eps * max(positive_pe), 2)
+    ten_year_min_market_price = round(ten_year_eps * min(positive_pe), 2)
     annual_growth_rate = round((((ten_year_market_price / price) ** 0.1) - 1) * 100, 2)
     max_growth_rate = round((((ten_year_max_market_price / price) ** 0.1) - 1) * 100, 2)
     min_growth_rate = round((((ten_year_min_market_price / price) ** 0.1) - 1) * 100, 2)
 
-    return {"rows": [
+    return {"warnings": warnings, "rows": [
         {"label": "Current Price",            "value": price,                    "color": None},
         {"label": "EPS in 10 years",           "value": ten_year_eps,             "color": None},
         {"label": "Market Price in 10 years",  "value": ten_year_market_price,    "color": None},

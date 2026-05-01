@@ -67,6 +67,8 @@ if analyze and ticker:
         if "error" in result:
             st.error(result["error"])
         else:
+            for w in result.get("warnings", []):
+                st.warning(w)
             display_colored_table(result["rows"])
     with col_fund:
         st.subheader("Financial Ratios")
