@@ -13,7 +13,9 @@ def run_cli():
 
     eps, pe_ratio, financial_data = get_historical_data(ticker, log=print)
 
-    header = get_historical_data_header()
+    n = min(len(eps), len(pe_ratio))
+    eps, pe_ratio = eps[:n], pe_ratio[:n]
+    header = get_historical_data_header(n)
 
     print(bold_text("Past 10 years EPS"))
     print(tabulate([header, eps], headers="firstrow", tablefmt="grid"))

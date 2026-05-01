@@ -41,7 +41,9 @@ if analyze and ticker:
             st.stop()
         status.update(label="Data fetched", state="complete", expanded=False)
 
-    header = get_historical_data_header()
+    n = min(len(eps), len(pe_ratio))
+    eps, pe_ratio = eps[:n], pe_ratio[:n]
+    header = get_historical_data_header(n)
     result = calc_projections(eps, pe_ratio, financial_data.get_price())
 
     col_eps, col_pe, col_proj, col_fund = st.columns(4)
