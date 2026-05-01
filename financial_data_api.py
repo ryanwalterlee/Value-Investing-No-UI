@@ -7,15 +7,11 @@ from financial_data_class import FinancialData
 load_dotenv()
 
 financial_modelling_prep_api_key = os.getenv("FINANCIAL_MODELLING_PREP_API_KEY")
-financial_modelling_prep_url = "https://financialmodelingprep.com/api/v3"
+financial_modelling_prep_url = "https://financialmodelingprep.com/stable"
 income_statement_path = "income-statement"
 balance_sheet_path = "balance-sheet-statement"
 cash_flow_statement_path = "cash-flow-statement"
 price_path = "quote"
-params = {
-        "apikey": financial_modelling_prep_api_key,
-        "limit": 1
-    }
 
 relavant_keys = [
     "revenue",
@@ -56,10 +52,15 @@ def get_financial_statement_data(ticker):
             - capitalExpenditure
     """
 
-    income_statement_response = requests.get("{}/{}/{}".format(financial_modelling_prep_url, income_statement_path, ticker), params=params)
-    balance_sheet_response = requests.get("{}/{}/{}".format(financial_modelling_prep_url, balance_sheet_path, ticker), params=params)
-    cash_flow_statement_response = requests.get("{}/{}/{}".format(financial_modelling_prep_url, cash_flow_statement_path, ticker), params=params)
-    price_response = requests.get("{}/{}/{}".format(financial_modelling_prep_url, price_path, ticker), params=params)
+    params = {
+        "symbol": ticker,
+        "apikey": financial_modelling_prep_api_key,
+        "limit": 1
+    }
+    income_statement_response = requests.get("{}/{}".format(financial_modelling_prep_url, income_statement_path), params=params)
+    balance_sheet_response = requests.get("{}/{}".format(financial_modelling_prep_url, balance_sheet_path), params=params)
+    cash_flow_statement_response = requests.get("{}/{}".format(financial_modelling_prep_url, cash_flow_statement_path), params=params)
+    price_response = requests.get("{}/{}".format(financial_modelling_prep_url, price_path), params=params)
     
     combined_response_data = {
         **income_statement_response.json()[0], 
