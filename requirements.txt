@@ -4,3 +4,4 @@ webdriver-manager
 tabulate
 pytest
 streamlit
+yfinance
